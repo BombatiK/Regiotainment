@@ -1,0 +1,37 @@
+ERROR_SD: Error: Command failed: ffmpeg -i ./videos/VID.mp4 -f mp4 -vcodec h264 -r 25 -aspect 4:3 -s 320x240 -acodec libmp3lame -filter_complex "scale=iw*sar:ih, pad=max(iw\,ih*(4/3)):ow/(4/3):(ow-iw)/2:(oh-ih)/2" ./Encoded/test_SD.mp4
+ffmpeg version N-91666-g70d2bab80b Copyright (c) 2000-2018 the FFmpeg developers  built with gcc 8.2.1 (GCC) 20180813
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libmfx --enable-amf --enable-ffnvcodec --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth
+  libavutil      56. 19.100 / 56. 19.100
+  libavcodec     58. 24.101 / 58. 24.101
+  libavformat    58. 17.103 / 58. 17.103
+  libavdevice    58.  4.101 / 58.  4.101
+  libavfilter     7. 26.100 /  7. 26.100
+  libswscale      5.  2.100 /  5.  2.100
+  libswresample   3.  2.100 /  3.  2.100
+  libpostproc    55.  2.100 / 55.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from './videos/VID.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : 523865004669120
+    encoder         : Lavf56.40.101
+  Duration: 00:00:32.62, start: 0.000000, bitrate: 301 kb/s
+    Stream #0:0(und): Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p, 224x400, 277 kb/s, 29.73 fps, 29.75 tbr, 90k tbn, 59.45 tbc (default)
+    Metadata:
+      handler_name    : VideoHandler
+    Stream #0:1(eng): Audio: aac (HE-AACv2) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 19 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+Stream mapping:
+  Stream #0:0 (h264) -> scale (graph 0)
+  pad (graph 0) -> Stream #0:0 (libx264)
+  Stream #0:1 -> #0:1 (aac (native) -> mp3 (libmp3lame))
+Press [q] to stop, [?] for help
+[Parsed_pad_1 @ 000001ac4e6fbf80] Input area 154:0:378:400 not within the padded area 0:0:532:398 or zero-sized
+[Parsed_pad_1 @ 000001ac4e6fbf80] Failed to configure input pad on Parsed_pad_1
+Error reinitializing filters!
+Failed to inject frame into filter network: Invalid argument
+Error while processing the decoded data for stream #0:0
+[libmp3lame @ 000001ac4dec1dc0] 4 frames left in the queue on closing
+Conversion failed!

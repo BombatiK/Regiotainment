@@ -1,0 +1,63 @@
+function dev_mp(video) {
+    return Promise((resolve, reject) => {
+        daten = video.metadata;
+        console.log(video.metadata);
+        console.log('Das Video ist bereit transcodiert zu werden (Full HD)');
+        video.setVideoFormat('mp4') // Format OK!!
+            .setVideoCodec('h264')  // VideoCodec OK !!
+            //.setVideoBitRate(520)
+            .setAudioCodec('mp3')   //AudioCodec OK !!
+            .setVideoFrameRate(25) //Frame OK !!
+            .setVideoAspectRatio('16:9')  // Ratio OK  !!
+            .setVideoSize('1980x720', true, true)   // Size  OK  !!
+
+            .save('./Encoded/test_FULL_HD.mp4', function (error, file) {
+                if (!error) {
+                    console.log('Video file: ' + file);
+
+                    socket.emit('video_fhd', 'Das Video wurde transcodiert (Full HD Qualität)');
+                } else {
+                    if (error == "stderr maxBuffer exceeded") {
+                        console.log('ERROR_FHD but FFMPEG still processing: ' + error);
+
+                        var isReadfile = fs.readFile('C:/Users/User/source/repos/Regiotainment/regio_test/Encoded/test_FULL_HD.mp4/', 'utf8', function (err, dat) {
+                            if (err) {
+                                console.log(err)
+                                return false
+                            } else
+                                console.log(dat)
+                            return true
+                                
+                        })
+                        while (isReadfile == false) {
+                            isReadfile = fs.readFile('C:/Users/User/source/repos/Regiotainment/regio_test/Encoded/test_FULL_HD.mp4', function (err, dat) {
+                                if (err) {
+                                    console.log(err)
+                                    return false
+                                } else
+                                    console.log(dat)
+                                return true
+
+                            })
+                            
+                        }
+
+
+                            /*var activeProcesses = processWindows.getProcesses(function (err, processes) {
+                             * processes.forEach(function (p) {
+                             * console.log("PID: " + p.pid.toString());
+                             * console.log("MainWindowTitle: " + p.mainWindowTitle);
+                             * console.log("ProcessName: " + p.processName);
+                             * });
+                             * });*/} else {
+                        console.log('ERROR_FHD: ' + error);
+                        socket.emit('err_fhd', JSON.stringify(error));///// error muss zu dem Client geschickt werden !!!!!!
+                        resolve("fertig ++++++++")
+                    }
+
+                }
+            });
+
+    });
+
+}

@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Socket.io</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+    <h1>Encoding Test</h1>
+    <div id="msg"></div>
+    <div id="cod_sd"></div>
+    <div id="cod"></div>
+    <div id="proc"></div>
+    <div id="_err"></div>
+    <table>
+        <tr>
+            <th>Videos</th>
+            <th>Processing</th>
+            <th>Statut</th>
+        </tr>
+        <tr>
+            <td> Video MP4 SD</td>
+            <td id="mp4_sd"></td>
+            <td id="mp4_sd_stat"></td>
+        </tr>
+        <tr>
+            <td> Video MP4 HD</td>
+            <td id="mp4_hd"></td>
+            <td id="mp4_hd_stat"></td>
+        </tr>
+        <tr>
+            <td>Video HLS SD</td>
+            <td id="hls_sd"></td>
+            <td id="hls_sd_stat"></td>
+        </tr>
+        <tr>
+            <td>Video HLS HD</td>
+            <td id="hls_hd"></td>
+            <td id="hls_hd_stat"></td>
+        </tr>
+        <tr>
+            <td>Video WebM SD</td>
+            <td id="webm_sd"></td>
+            <td id="webm_sd_stat"></td>
+        </tr>
+        <tr>
+            <td>Video WebM HD</td>
+            <td id="webm_hd"></td>
+            <td id="webm_hd_stat"></td>
+        </tr>
+    </table>
+    <p><input type="button" value="Upload" id="poke" /></p>
+
+    <script type="text/javascript" src="./jquery-1.10.1.min.js"></script>
+    <!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:8080');
+        socket.on('Proc_mp4_sd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('mp4_sd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+        socket.on('Proc_mp4_hd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('mp4_hd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+        socket.on('Proc_hls_sd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('hls_sd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+        socket.on('Proc_hls_hd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('hls_hd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+        socket.on('Proc_webm_sd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('webm_sd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+        socket.on('Proc_webm_hd', function (meldung) {
+            //alert('Server Antwort : ' + meldung);
+            document.getElementById('webm_hd').innerHTML = '<H1>' + meldung + '</H1 >'
+
+        });
+
+
+        socket.on('message', function (message) {
+            alert('Server Antwort : ' + message)
+            socket.emit('join', 'Hello World from Client');
+        });
+        socket.on('video_mp4_sd', function (meldung) {
+           // alert('Server Antwort : ' + meldung);
+            document.getElementById('mp4_sd').innerHTML = '<H1>' + meldung+'</H1 > '
+
+        });
+        socket.on('video_mp4_hd', function (meldung) {
+           // alert('Server Antwort : ' + meldung);
+            document.getElementById('mp4_hd').innerHTML = '<H1>'+meldung+'</H1>'
+
+        });
+
+
+         /**     Status on End Processing    **/
+        socket.on('video_hls_sd', function (meldung) {
+           // alert('Server Antwort : ' + meldung);
+            document.getElementById('hls_sd').innerHTML = '<H1>' + meldung + '</H1>'
+
+        });
+        socket.on('video_hls_hd', function (meldung) {
+           // alert('Server Antwort : ' + meldung);
+            document.getElementById('hls_hd').innerHTML = '<H1>' + meldung + '</H1>'
+
+        });
+        socket.on('video_webm_sd', function (meldung) {
+           // alert('Server Antwort : ' + meldung);
+            document.getElementById('webm_sd').innerHTML = '<H1>' + meldung + '</H1>'
+
+        });
+        socket.on('video_webm_hd', function (meldung) {
+         //   alert('Server Antwort : ' + meldung);
+            document.getElementById('webm_hd').innerHTML = '<H1>' + meldung + '</H1>'
+
+        });
+        socket.on('video_fhd', function (meldung) {
+            alert('Server Antwort : ' + meldung);
+            document.getElementById('cod').innerHTML = '<H1>Transcoding Prozess abgeschlossen !!</H1>'
+
+        });
+
+
+                        /**     Status on Error(Try Catch)     **/
+
+
+        socket.on('err_catch', function (error) {
+            // socket.emit('err_sd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('_err').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+
+                /**     Status on Error     **/
+
+        socket.on('error_mp4_sd', function (error) {
+            socket.emit('err_sd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('mp4_sd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+        socket.on('error_mp4_hd', function (error) {
+            socket.emit('err_hd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('mp4_hd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+        socket.on('error_hls_sd', function (error) {
+            socket.emit('err_sd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('hls_sd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+        socket.on('error_hls_hd', function (error) {
+            socket.emit('err_hd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('hls_hd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+        socket.on('error_webm_sd', function (error) {
+            socket.emit('err_sd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('webm_sd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+        socket.on('error_webm_hd', function (error) {
+            socket.emit('err_hd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('webm_hd_stat').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+
+        /**     Status on End     **/
+        socket.on('fertig_mp4_sd', function (fertig) {
+            //socket.emit('err_sd', 'Error while processing');
+           // alert('Server Antwort : ' + error);
+            document.getElementById('mp4_sd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+        socket.on('fertig_mp4_hd', function (fertig) {
+            //socket.emit('err_hd', 'Error while processing');
+           // alert('Server Antwort : ' + error);
+            document.getElementById('mp4_hd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+        socket.on('fertig_hls_sd', function (fertig) {
+           // socket.emit('err_sd', 'Error while processing');
+            //alert('Server Antwort : ' + error);
+            document.getElementById('hls_sd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+        socket.on('fertig_hls_hd', function (fertig) {
+           // socket.emit('err_hd', 'Error while processing');
+           // alert('Server Antwort : ' + error);
+            document.getElementById('hls_hd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+        socket.on('fertig_webm_sd', function (fertig) {
+            //socket.emit('err_sd', 'Error while processing');
+            //alert('Server Antwort : ' + error);
+            document.getElementById('webm_sd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+        socket.on('fertig_webm_hd', function (fertig) {
+            //socket.emit('err_hd', 'Error while processing');
+            //alert('Server Antwort : ' + error);
+            document.getElementById('webm_hd_stat').innerHTML = '<H1>' + fertig + '</H1 > '
+
+        });
+
+
+        socket.on('err_fhd', function (error) {
+            socket.emit('err_fhd', 'Error while processing');
+            alert('Server Antwort : ' + error);
+            document.getElementById('_err').innerHTML = '<H1>' + error + '</H1 > '
+
+        });
+
+        $('#poke').click(function () {
+            // Hier wird das Video Upload starten <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< WICHTIG
+
+            socket.emit('message', 'Upload Abgeschlossen. Das Video wird Transcodiert');
+            document.getElementById('msg').innerHTML = '<H1>Upload abgeschlossen</H1>'
+           
+        })
+    </script>
+</body>
+</html>
